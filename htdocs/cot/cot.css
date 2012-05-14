@@ -1,0 +1,50 @@
+.cot_toggle {
+	float: left;
+	margin-left: -20px;
+	display: none;
+	position: relative;
+}
+.cot_toggle_icon {
+	background: white;
+	padding: 1px;
+	border: 1px solid black;
+	border-radius: 4px;
+	z-index: 1;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+.cot_linkbox {
+	position: absolute;
+	top: 0px;
+	left: 18px;
+	width: 200px;
+	background: white;
+	display: none;
+	border: 1px solid black;
+	border-radius: 0px 4px 4px 4px;
+	z-index: 0;
+	padding-left: 2px;
+}
+.cot_item:hover>.cot_toggle {
+	display: block;
+}
+.cot_toggle:hover>.cot_toggle_icon {
+	border-right: none;
+	border-radius: 4px 0px 0px 4px;
+}
+.cot_toggle:hover>.cot_linkbox {
+	display: block;
+}
+
+.cot_form TEXTAREA {
+	width: 100%;
+/*	border: 1px solid black;
+	border-bottom: none;
+	border-radius: 4px 4px 0px 0px;*/
+}
+.cot_form INPUT {
+	width: 100%;
+/*	border: 1px solid black;
+	border-radius: 0px 0px 4px 4px;*/
+}

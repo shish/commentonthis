@@ -1,0 +1,28 @@
+$def with (comments, form)
+
+<table>
+    <tr>
+        <th>What to do ?</th>
+        <th></th>
+    </tr>
+$ last_page_url = None
+$ last_item_id = None
+$for comment in comments:
+	$if comment.page_url != last_page_url or comment.item_id != last_item_id:
+		<tr><td>Item: <a href="$comment.page_url#$comment.item_id">$comment.page_url#$comment.item_id</a></tr>
+		$ last_page_url = comment.page_url
+		$ last_item_id = comment.item_id
+    <tr>
+        <td>$comment.content</td>
+        <td>
+            <form action="/comment/$comment.id" method="POST">
+				<input type="hidden" name="_method" value="DELETE">
+                <input type="submit" value="Delete"/>
+            </form>
+        </td>
+    </tr>    
+</table>  
+
+<form action="" method="POST">
+$:form.render()
+</form>
