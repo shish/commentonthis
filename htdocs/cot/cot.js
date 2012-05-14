@@ -34,7 +34,7 @@ function cot_init(account_id, filter, canonical_base) {
 		var cbox_link_view = document.createElement("a");
 		cbox_link_view.innerHTML = "View current comments";
 		$(cbox_link_view).attr("class", "cot_link_view");
-		$(cbox_link_view).attr("href", cot_base+"view_comments?page="+encodeURIComponent(canonical_base)+"&item="+encodeURIComponent(item_el.attr("id")));
+		$(cbox_link_view).attr("href", cot_base+"comments?page="+encodeURIComponent(canonical_base)+"&item="+encodeURIComponent(item_el.attr("id")));
 		$(cbox_link_view).data("item-id", item_el.attr("id"));
 
 		var cbox_toggle_icon = document.createElement("img");
