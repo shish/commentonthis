@@ -1,7 +1,8 @@
 import web
 import time
 
-db = web.database(dbn='sqlite', db='cot.db')
+db = web.database(dbn="postgres", db="cot", user="cot", pw="c0t00t13")
+#db = web.database(dbn='sqlite', db='cot.db')
 
 def get_comments():
     return db.select('comment', order='page_url, item_id, id')
