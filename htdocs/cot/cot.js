@@ -8,7 +8,7 @@ function cot_init_style() {
 	var ss = document.createElement("link");
 	ss.type = "text/css";
 	ss.rel = "stylesheet";
-	ss.href = "http://www.commentonthis.net/cot/cot.css";
+	ss.href = cot_base+"cot/cot.css";
 	document.getElementsByTagName("head")[0].appendChild(ss);
 }
 
@@ -24,12 +24,26 @@ function cot_init(account_id, filter, canonical_base) {
 		if(!item_el.attr("id")) {
 			item_el.attr("id", cot_hash_node(item_el));
 		}
+		item_el.data("snippet", item_el.text().substring(0, 150));
 
 		var cbox_link_add = document.createElement("a");
 		cbox_link_add.innerHTML = "Comment on this";
-		$(cbox_link_add).attr("class", "cot_link_add");
 		$(cbox_link_add).attr("href", "#");
-		$(cbox_link_add).data("item-id", item_el.attr("id"));
+		$(cbox_link_add).click(function(e) {
+			win = window.open(
+				cot_base+"comments/new"+
+				"?quote="+encodeURIComponent(item_el.data("snippet"))+
+				"&page_owner="+encodeURIComponent(account_id)+
+				"&page_url="+encodeURIComponent(canonical_base)+
+				"&item_id="+encodeURIComponent(item_el.attr("id")),
+				'New Comment',
+				'height=200,width=450'
+			);
+			if(window.focus) {
+				win.focus();
+			}
+			return false;
+		});
 
 		var cbox_link_view = document.createElement("a");
 		cbox_link_view.innerHTML = "View current comments";
@@ -38,7 +52,7 @@ function cot_init(account_id, filter, canonical_base) {
 		$(cbox_link_view).data("item-id", item_el.attr("id"));
 
 		var cbox_toggle_icon = document.createElement("img");
-		cbox_toggle_icon.src = "http://www.commentonthis.net/cot/cot.png";
+		cbox_toggle_icon.src = cot_base+"cot/cot.png";
 		$(cbox_toggle_icon).attr("class", "cot_toggle_icon");
 
 		var cbox = document.createElement("div");
@@ -56,17 +70,5 @@ function cot_init(account_id, filter, canonical_base) {
 	});
 	$(".cot_link_add").each(function(idx, el) {
 		var el = $(el);
-		el.click(function(e) {
-			var form = document.createElement("form");
-			$(form).attr("class", "cot_form");
-			form.action = cot_base+"comments?page_owner="+encodeURIComponent(account_id)+"&page_url="+encodeURIComponent(canonical_base)+"&item_id="+encodeURIComponent(el.data("item-id"));
-			form.method = "POST";
-			form.innerHTML = ""+
-			"<textarea name='content'></textarea>"+
-			"<br><input type='submit' value='Add Comment'>"+
-			"";
-			el.parent().parent().parent().get(0).appendChild(form);
-			return false;
-		});
 	});
 }
