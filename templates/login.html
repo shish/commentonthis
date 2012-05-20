@@ -1,0 +1,12 @@
+$def with(return_to, username="", error="")
+
+<div class="cot_form cot_login">
+	<form method="POST" action="/user/login?return_to=$return_to">
+		$error
+		$if error:
+			<br>
+		<input type='text' name='username' placeholder="Username" value="$username">
+		<br><input type='password' name='password' placeholder="Password">
+		<br><input class="btn btn-primary" type="submit" value="Log In">
+	</form>
+</div>

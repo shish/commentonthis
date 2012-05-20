@@ -31,7 +31,7 @@ function cot_init(account_id, filter, canonical_base) {
 		$(cbox_link_add).attr("href", "#");
 		$(cbox_link_add).click(function(e) {
 			win = window.open(
-				cot_base+"comments/new"+
+				cot_base+"comment/new"+
 				"?quote="+encodeURIComponent(item_el.data("snippet"))+
 				"&page_owner="+encodeURIComponent(account_id)+
 				"&page_url="+encodeURIComponent(canonical_base)+
@@ -48,7 +48,7 @@ function cot_init(account_id, filter, canonical_base) {
 		var cbox_link_view = document.createElement("a");
 		cbox_link_view.innerHTML = "View current comments";
 		$(cbox_link_view).attr("class", "cot_link_view");
-		$(cbox_link_view).attr("href", cot_base+"comments?page="+encodeURIComponent(canonical_base)+"&item="+encodeURIComponent(item_el.attr("id")));
+		$(cbox_link_view).attr("href", cot_base+"comment?page_url="+encodeURIComponent(canonical_base)+"&item_id="+encodeURIComponent(item_el.attr("id")));
 		$(cbox_link_view).data("item-id", item_el.attr("id"));
 
 		var cbox_toggle_icon = document.createElement("img");

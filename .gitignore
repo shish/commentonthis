@@ -1,3 +1,6 @@
 *.pyc
 backups/
 logs/
+app/lib
+app/flup
+app/web
