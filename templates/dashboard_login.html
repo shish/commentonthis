@@ -1,7 +1,7 @@
-$def with(return_to, username="", error="")
+$def with(username="", error="")
 
 <div class="cot_form cot_login">
-	<form method="POST" action="/user/login?return_to=$return_to">
+	<form method="POST" action="/dashboard/login">
 		$error
 		$if error:
 			<br>
@@ -9,4 +9,9 @@ $def with(return_to, username="", error="")
 		<br><input type='password' name='password' placeholder="Password">
 		<br><input class="btn btn-primary" type="submit" value="Log In">
 	</form>
+	<center>
+		<a href="/dashboard/new">Create New Account</a>
+		/
+		<a href="/dashboard/reset">Password Reset</a>
+	</center>
 </div>

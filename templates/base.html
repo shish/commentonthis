@@ -36,10 +36,11 @@ $def with (page)
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</a>
-					<a class="brand" href="/">Comment on This!</a>
+					<a class="brand wide-only" href="/">Comment on This!</a>
+					<a class="brand thin-only" href="/" target="blank">Comment on This!</a>
 					$if session.user.username == "Anonymous":
 						<div class="btn-group pull-right">
-							<a class="btn" href="/user/login">
+							<a class="btn" href="/dashboard/login">
 								<i class="icon-user"></i> $session.user.username
 								<span class="caret"></span>
 							</a>
@@ -55,12 +56,14 @@ $def with (page)
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">
-								<li><a href="/user/$session.user.username">Profile</a></li>
+								<li><a class="wide-only" href="/user/$session.user.username"><i class="icon-user"></i> Profile</a></li>
+								<li><a class="wide-only" href="/dashboard"><i class="icon-wrench"></i> Dashboard</a></li>
+								<li><a class="thin-only" href="/user/$session.user.username" target="blank"><i class="icon-user"></i> Profile</a></li>
+								<li><a class="thin-only" href="/dashboard" target="blank"><i class="icon-wrench"></i> Dashboard</a></li>
 								<li class="divider"></li>
-									<form action="/user/login" method="POST" id="logout_form">
-										<input type="hidden" name="_method" value="DELETE">
-									</form>
-								<li><a href="#" onclick="$$('#logout_form').submit(); return false;">Sign Out</a></li>
+								<form action="/dashboard/logout" method="POST" id="logout_form" style="margin-bottom: 0px;">
+								</form>
+								<li><a href="#" onclick="$$('#logout_form').submit(); return false;"><i class="icon-off"></i> Sign Out</a></li>
 							</ul>
 						</div>
 					<!-- endif -->

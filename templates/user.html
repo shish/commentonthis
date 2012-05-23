@@ -1,0 +1,28 @@
+$def with(username, page_urls)
+
+<div class="row-fluid">
+	<div class="span6">
+		<h1>$username's Profile</h1>
+		<br>X pages
+		<br>Y comments
+	</div>
+	<div class="span6">
+		<h2>Pages</h2>
+<ul>
+$for page_url_row in page_urls:
+	<li><a href="$page_url_row.page_url">$page_url_row.page_url</a></li>
+</ul>
+		<p><a class="btn" href="#">View full list &raquo;</a></p>
+	</div>
+</div>
+
+<div class="row-fluid">
+	<div class="span6">
+		<h2>Comments On</h2>
+		<p><a class="btn" href="#">View details &raquo;</a></p>
+	</div>
+	<div class="span6">
+		<h2>Comments By</h2>
+		<p><a class="btn" href="#">View details &raquo;</a></p>
+	</div>
+</div><!--/row-->

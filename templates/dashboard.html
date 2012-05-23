@@ -1,0 +1,44 @@
+$def with(username, page_urls)
+
+<div class="row-fluid">
+	<div class="span5">
+		<h2>Web Code</h2>
+		Insert this code into your web pages to start accepting comments:
+		<br><pre>&lt;script src="http://www.commentonthis.net/cot/cot.js"&gt;&lt;/script&gt;
+&lt;script&gt;cot_init("$username");&lt;/script&gt;</pre>
+		By default the script will attach to all P tags - for more control, you can
+		pass a second paramater which will be used as a selector; for example you can
+		tag certain elements with <code>class="commentable"</code> and then call
+		<code>cot_init("$username", ".commentable");</code>.
+	</div>
+	<div class="span4">
+		<h2>Pages</h2>
+		<ul>
+		$if not page_urls:
+			<li>No pages have active comments</li>
+		$for page_url_row in page_urls:
+			<li><a href="$page_url_row.page_url">$page_url_row.page_url</a> - <a href="">Comments</a></li>
+		</ul>
+		<!--<p><a class="btn" href="#">View full list &raquo;</a></p>-->
+	</div>
+	<div class="span3 cot_form">
+		<h2>Change Password</h2>
+		<form action="/dashboard/setpw" method="POST">
+			<input type="password" name="password" placeholder="Current Password">
+			<br><input type="password" name="password1" placeholder="New Password">
+			<br><input type="password" name="password2" placeholder="Repeat New Password">
+			<br><input class="btn btn-primary" type="submit" value="Change">
+		</form>
+	</div>
+</div>
+
+<div class="row-fluid">
+	<div class="span6">
+		<h2>Comments By Me</h2>
+		<!--<p><a class="btn" href="#">View full list &raquo;</a></p>-->
+	</div>
+	<div class="span6">
+		<h2>Comments On My Pages</h2>
+		<!--<p><a class="btn" href="#">View details &raquo;</a></p>-->
+	</div>
+</div><!--/row-->

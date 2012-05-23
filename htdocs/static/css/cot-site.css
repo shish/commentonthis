@@ -24,13 +24,26 @@ INPUT {
 	text-overflow: ellipsis;
 }
 
-.cot_login {
+.cot_login, .cot_new_user {
 	width: 300px;
 	margin: auto;
 }
 
 @media (max-width: 480px) {
 	.wide-only {
+		display: none !important;
+	}
+	.cot_login FORM, .cot_new_user FORM {
+		margin-bottom: 8px;
+	}
+	.cot_new_user INPUT[type="text"],
+	.cot_new_user INPUT[type="email"],
+	.cot_new_user INPUT[type="password"] {
+		width: 49%;
+	}
+}
+@media (min-width: 481px) {
+	.thin-only {
 		display: none !important;
 	}
 }
