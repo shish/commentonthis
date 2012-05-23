@@ -3,13 +3,13 @@ DROP TABLE IF EXISTS "user";
 DROP TABLE IF EXISTS "session";
 
 CREATE TABLE "user" (
-    id SERIAL PRIMARY KEY,
-    username TEXT UNIQUE NOT NULL,
+	id SERIAL PRIMARY KEY,
+	username TEXT UNIQUE NOT NULL,
 	password char(40) NOT NULL,
 	email TEXT NOT NULL
 );
 CREATE TABLE "comment" (
-    id SERIAL PRIMARY KEY,
+	id SERIAL PRIMARY KEY,
 	page_owner_id INTEGER NOT NULL REFERENCES "user"(id),
 	page_url TEXT NOT NULL,
 	item_id TEXT NOT NULL,
