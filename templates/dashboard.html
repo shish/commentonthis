@@ -1,44 +1,78 @@
-$def with(username, page_urls)
+$def with(username, page_urls, comments_on, comments_by, private_messages)
 
-<div class="row-fluid">
-	<div class="span5">
-		<h2>Web Code</h2>
-		Insert this code into your web pages to start accepting comments:
-		<br><pre>&lt;script src="http://www.commentonthis.net/cot/cot.js"&gt;&lt;/script&gt;
-&lt;script&gt;cot_init("$username");&lt;/script&gt;</pre>
-		By default the script will attach to all P tags - for more control, you can
-		pass a second paramater which will be used as a selector; for example you can
-		tag certain elements with <code>class="commentable"</code> and then call
-		<code>cot_init("$username", ".commentable");</code>.
-	</div>
-	<div class="span4">
+<div class="row">
+	<div class="span7">
 		<h2>Pages</h2>
 		<ul>
 		$if not page_urls:
 			<li>No pages have active comments</li>
 		$for page_url_row in page_urls:
-			<li><a href="$page_url_row.page_url">$page_url_row.page_url</a> - <a href="">Comments</a></li>
+			<li>
+				<a href="$page_url_row.page_url">$shorten_url(page_url_row.page_url)</a> -
+			$if page_url_row.comments == 1:
+				<a href="/comment?page_url=$page_url_row.page_url">$page_url_row.comments Comment</a>
+			$else:
+				<a href="/comment?page_url=$page_url_row.page_url">$page_url_row.comments Comments</a>
+			</li>
 		</ul>
 		<!--<p><a class="btn" href="#">View full list &raquo;</a></p>-->
 	</div>
-	<div class="span3 cot_form">
-		<h2>Change Password</h2>
-		<form action="/dashboard/setpw" method="POST">
-			<input type="password" name="password" placeholder="Current Password">
-			<br><input type="password" name="password1" placeholder="New Password">
-			<br><input type="password" name="password2" placeholder="Repeat New Password">
-			<br><input class="btn btn-primary" type="submit" value="Change">
-		</form>
+	<div class="span5">
+		<h2>Quick Code</h2>
+		<p>Insert this code into your web pages to start accepting comments:</p>
+		<pre class="prettyprint">&lt;script src="http://www.commentonthis.net/cot/cot.js"&gt;&lt;/script&gt;
+&lt;script&gt;cot_init("$username");&lt;/script&gt;</pre>
+		<p>For more advanced options, see the page on <a href="/about/get-started">getting started</a>.</p>
 	</div>
 </div>
 
-<div class="row-fluid">
-	<div class="span6">
-		<h2>Comments By Me</h2>
+<p>&nbsp;
+
+<div class="row">
+	<div class="span4">
+		<h2>Latest Comments By Me</h2>
+		<ul>
+		$if not comments_by:
+			<li>No comments</li>
+		$for c in comments_by:
+			<li>$c.content
+			<br><i>
+			$if c.private:
+				Private
+			on <a href="/user/$c.page_owner">$c.page_owner</a>'s <a href="$c.page_url#$c.item_id">$get_domain(c.page_url)</a>
+			at $shorten_datetime(c.date_posted)
+			</i></li>
+		</ul>
+		<!--<p><a class="btn" href="/dashboard/comments_by">View full list &raquo;</a></p>-->
+	</div>
+	<div class="span4">
+		<h2>Latest Comments On My Pages</h2>
+		<ul>
+		$if not comments_on:
+			<li>No comments</li>
+		$for c in comments_on:
+			<li>$c.content
+			<br><i><a href="/user/$c.commenter">$c.commenter</a> posted
+			$if c.private:
+				privately
+			on <a href="$c.page_url#$c.item_id">$get_domain(c.page_url)</a>
+			at $shorten_datetime(c.date_posted)
+			</i>
+			</li>
+		</ul>
 		<!--<p><a class="btn" href="#">View full list &raquo;</a></p>-->
 	</div>
-	<div class="span6">
-		<h2>Comments On My Pages</h2>
+	<div class="span4">
+		<h2>Latest Private Messages</h2>
+		<ul>
+		$if not private_messages:
+			<li>No messages</li>
+		$for pm in private_messages:
+			<li>$pm.content
+			<br><i>From <a href="/user/$pm.user_from">$pm.user_from</a>
+			on $shorten_datetime(pm.date_posted)</i>
+			</li>
+		</ul>
 		<!--<p><a class="btn" href="#">View details &raquo;</a></p>-->
 	</div>
 </div><!--/row-->

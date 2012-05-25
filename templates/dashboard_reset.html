@@ -5,8 +5,8 @@ $def with(error="")
 		$error
 		$if error:
 			<br>
-		<input type='text' name='username' placeholder="Username">
-		<br><input type='text' name='password' placeholder="Email">
+		<input type='text' name='username' placeholder="Username" pattern="[A-Za-z0-9_-]+">
+		<br><input type='email' name='password' placeholder="Email">
 		<br><input class="btn btn-primary" type="submit" value="Reset Password">
 	</form>
 	<center>

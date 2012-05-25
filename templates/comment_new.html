@@ -4,10 +4,11 @@ $def with(quote, page_owner, page_url, item_id)
 	<p class="quote">Responding to: <i>$quote</i></p>
 
 	<form method="POST" action="/comment">
+		<input type='hidden' name='close_after' value='on'>
 		<input type='hidden' name='page_owner' value='$page_owner'>
 		<input type='hidden' name='page_url' value='$page_url'>
 		<input type='hidden' name='item_id' value='$item_id'>
-		<textarea name='content'></textarea>
+		<textarea name='content' id="content" autofocus></textarea>
 		<br><input class="btn btn-primary" type="submit" value="Submit Comment">
 	</form>
 </div>

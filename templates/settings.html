@@ -1,0 +1,39 @@
+
+<div class="row">
+	<div class="span3 cot_form">
+		<h2>Change Password</h2>
+		<form action="/settings" method="POST">
+			<input type="hidden" name="function" value="setpw">
+			<input type="password" name="password" placeholder="Current Password" required>
+			<br><input type="password" name="password1" placeholder="New Password" required>
+			<br><input type="password" name="password2" placeholder="Repeat New Password" required>
+			<br><input class="btn btn-primary" type="submit" value="Change">
+		</form>
+	</div>
+
+	<div class="span3 cot_form">
+		<h2>Set Mail Mode</h2>
+		<form action="/settings" method="POST">
+			<input type="hidden" name="function" value="setmailmode">
+			<label class="radio">
+				<input type="radio" name="mailmode" value="all"
+				$if session.user.mailmode == "all":
+					checked
+				> Whenever a comment is posted
+			</label>
+			<label class="radio">
+				<input type="radio" name="mailmode" value="daily"
+				$if session.user.mailmode == "daily":
+					checked
+				disabled> Daily summary (Coming soon)
+			</label>
+			<label class="radio">
+				<input type="radio" name="mailmode" value="none"
+				$if session.user.mailmode == "none":
+					checked
+				> No email alerts
+			</label>
+			<br><input class="btn btn-primary" type="submit" value="Change">
+		</form>
+	</div>
+</div>

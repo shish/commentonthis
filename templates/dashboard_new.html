@@ -5,10 +5,10 @@ $def with(error="")
 		$error
 		$if error:
 			<br>
-		<input type='text' name='username' placeholder="Username">
-		<input type='email' name='email' placeholder="Email">
-		<input type='password' name='password1' placeholder="Password">
-		<input type='password' name='password2' placeholder="Repeat Password">
+		<input type='text' name='username' placeholder="Username (Letters, numbers, no spaces)" required pattern="[A-Za-z0-9_-]+">
+		<input type='email' name='email' placeholder="Email" required>
+		<input type='password' name='password1' placeholder="Password" required>
+		<input type='password' name='password2' placeholder="Repeat Password" required>
 		<br><input class="btn btn-primary" type="submit" value="Create Account">
 	</form>
 	<center>

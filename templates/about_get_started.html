@@ -1,0 +1,53 @@
+<div class="row">
+	<div class="span6 offset3">
+
+<h2>Getting Started with Comment on This!</h2>
+
+<p id="signup">First you need to <a href="/dashboard/new">create an account</a>,
+the standard "pick a username / password" deal.</p>
+
+<p id="insertcode">Then, Insert this code into your web pages to start accepting comments:</p>
+
+<pre class="prettyprint">&lt;script src="http://www.commentonthis.net/cot/cot.js"&gt;&lt;/script&gt;
+&lt;script&gt;cot_init("YourUsername");&lt;/script&gt;</pre>
+
+<p id="selector">By default the script will attach to all P tags - for more control, you can
+pass a second paramater which will be used as a
+<a href="http://api.jquery.com/category/selectors/">jQuery selector</a>; for example,
+you could take comments on any paragraph with an explicit ID:
+
+<pre class="prettyprint">&lt;h1&gt;My Page&lt;/h1&gt;
+&lt;p&gt;~~~ decoration! ~~~&lt;/p&gt;
+&lt;p id="worthy"&gt;Here's a paragraph worthy of being commented on&lt;/p&gt;
+&lt;p&gt;* sparkles! *&lt;/p&gt;
+&lt;p id="meaning"&gt;Some more meaningful, non-decoration text&lt;/p&gt;
+&lt;p&gt;-----------&lt;/p&gt;
+
+&lt;script src="http://www.commentonthis.net/cot/cot.js"&gt;&lt;/script&gt;
+&lt;script&gt;cot_init("YourUsername", "P[id]");&lt;/script&gt;</pre>
+
+<p id="section">Or to get comments on paragraphs within a given section:</p>
+
+<pre class="prettyprint">&lt;h1&gt;My Page&lt;/h1&gt;
+
+&lt;section class="description"&gt;
+    &lt;p&gt;This is the documentation for Foo&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;section class="doc"&gt;
+    &lt;p&gt;You can frob the bar with a wibble-stick.&lt;/p&gt;
+    &lt;p&gt;You can wibble the qux with some WD40.&lt;/p&gt;
+    &lt;p&gt;Greasing the badger-wheel is recommended.&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;script src="http://www.commentonthis.net/cot/cot.js"&gt;&lt;/script&gt;
+&lt;script&gt;cot_init("YourUsername", ".doc P");&lt;/script&gt;</pre>
+
+<p id="notp">You don't even have to hook into P tags - you could collect
+comments on images, or sections, for example.</p>
+
+	</div>
+</div>
+
+<script src="/cot/cot.js"></script>
+<script>cot_init("Shish", "P");</script>

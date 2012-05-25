@@ -36,12 +36,13 @@
 	position: absolute;
 	top: 0px;
 	left: 18px;
-	width: 11em;
+	/*width: 11em;*/
 	background: white;
 	border: 1px solid black;
 	border-radius: 0px 4px 4px 4px;
 	z-index: 0;
-	padding-left: 2px;
+	padding-left: 4px;
+	padding-right: 4px;
 	font-size: 14px;
 	display: none;
 }

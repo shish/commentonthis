@@ -79,7 +79,7 @@ function cot_init_style() {
 }
 
 function cot_init(account_id, filter, canonical_base) {
-	var canonical_base = canonical_base || window.location.href;
+	var canonical_base = canonical_base || location.protocol+'//'+location.hostname+(location.port?":"+location.port:"")+location.pathname;
 	var filter = filter || ".cot_item";
 
 	cot_init_style();
@@ -94,7 +94,7 @@ function cot_init(account_id, filter, canonical_base) {
 			item_el.data("snippet", item_el.text().substring(0, 150));
 
 			var cbox_link_add = jQuery('<a />');
-			cbox_link_add.html("Comment on this");
+			cbox_link_add.html("Comment&nbsp;on&nbsp;this");
 			cbox_link_add.attr("href", "#");
 			cbox_link_add.click(function(e) {
 				win = window.open(
@@ -113,7 +113,7 @@ function cot_init(account_id, filter, canonical_base) {
 			});
 
 			var cbox_link_view = jQuery("<a />");
-			cbox_link_view.html("View current comments");
+			cbox_link_view.html("View&nbsp;current&nbsp;comments");
 			cbox_link_view.attr("class", "cot_link_view");
 			cbox_link_view.attr("href", cot_base+"comment?page_url="+encodeURIComponent(canonical_base)+"&item_id="+encodeURIComponent(item_el.attr("id")));
 			cbox_link_view.data("item-id", item_el.attr("id"));

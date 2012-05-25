@@ -1,3 +1,6 @@
+html {
+	overflow-y: scroll;
+}
 body {
 	padding-top: 60px;
 	padding-bottom: 40px;
@@ -12,7 +15,10 @@ TEXTAREA, INPUT {
 INPUT {
 	height: 28px;
 }
-.cot_form TEXTAREA, .cot_form INPUT {
+.cot_form TEXTAREA,
+.cot_form INPUT[type="text"],
+.cot_form INPUT[type="password"],
+.cot_form INPUT[type="email"] {
 	width: 100%;
 }
 .cot_form .quote {

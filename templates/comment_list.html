@@ -1,32 +1,61 @@
-$def with (comments, form)
+$def with (comments, inp)
 
-<table>
-<!--
-    <tr>
-        <th>What to do ?</th>
-        <th></th>
-    </tr>
--->
-$ last_page_url = None
-$ last_item_id = None
-$for comment in comments:
-	$if comment.page_url != last_page_url or comment.item_id != last_item_id:
-		<tr><td>Item: <a href="$comment.page_url#$comment.item_id">$comment.page_url#$comment.item_id</a></tr>
-		$ last_page_url = comment.page_url
-		$ last_item_id = comment.item_id
-    <tr>
-        <td>$comment.content</td>
-        <td>
-            <form action="/comment/$comment.id" method="POST">
+<div class="row">
+	<div class="span6 offset3">
+
+$if inp.page_url and inp.item_id:
+	<h2>Comments on <a href="$inp.page_url#$inp.item_id">$shorten_url(inp.page_url+'#'+inp.item_id)</a></h2>
+	<a href="/comment?page_url=$inp.page_url">View comments on other parts of this page</a><p>
+	<ul>
+	$if not comments:
+		<li>No comments on this part of the page</li>
+	$for c in comments:
+		<li>$c.content
+		<br><i><a href="/user/$c.commenter">$c.commenter</a> posted
+		$if c.private:
+			privately
+		at $shorten_datetime(c.date_posted)
+		</i>
+		$if c.page_owner_id == session.user.id or c.commenter_id == session.user.id:
+			<form action="/comment/$c.id" method="POST">
 				<input type="hidden" name="_method" value="DELETE">
-                <input type="submit" value="Delete"/>
-            </form>
-        </td>
-    </tr>    
-</table>  
+				<input type="submit" value="Delete"/>
+			</form>
+		</li>
+	</ul>
 
-<!--
-<form action="" method="POST">
-$:form.render()
-</form>
--->
+	<h3>Add a comment to this item</h3>
+	<div class="cot_form">
+		<form method="POST" action="/comment">
+			<input type='hidden' name='page_owner' value='$c.page_owner'>
+			<input type='hidden' name='page_url' value='$c.page_url'>
+			<input type='hidden' name='item_id' value='$c.item_id'>
+			<textarea name='content' id="content"></textarea>
+			<br><input class="btn btn-primary" type="submit" value="Submit Comment">
+		</form>
+	</div>
+$elif inp.page_url:
+	<h2>Comments on <a href="$inp.page_url">$shorten_url(inp.page_url)</a></h2>
+	<ul>
+	$if not comments:
+		<li>No comments on this page</li>
+	$for c in comments:
+		<li>$c.content
+		<br><i><a href="/user/$c.commenter">$c.commenter</a> posted
+		$if c.private:
+			privately
+		on <a href="$c.page_url#$c.item_id">#$c.item_id</a>
+		<a href="/comment?page_url=$c.page_url&item_id=$c.item_id">(Comments)</a>
+		at $shorten_datetime(c.date_posted)
+		</i>
+		$if c.page_owner_id == session.user.id or c.commenter_id == session.user.id:
+			<form action="/comment/$c.id" method="POST">
+				<input type="hidden" name="_method" value="DELETE">
+				<input type="submit" value="Delete"/>
+			</form>
+		</li>
+	</ul>
+$#endif
+
+	</div>
+</div>
