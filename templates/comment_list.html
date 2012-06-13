@@ -1,61 +1,126 @@
-$def with (comments, inp)
+$def with (comments, inp, related_pages, related_items)
 
 <div class="row">
-	<div class="span6 offset3">
+	<div class="span5 offset2">
+		<h2>
+		<table class="item_breakdown">
+		$if inp.item_host:
+			<tr>
+				<td>Show <a href="$inp.item_host">$shorten_url(inp.item_host)</a>
+				<td>&nbsp;- <a href="/comment?item_host=$urlquote(inp.item_host)">Comments</a>
+			</tr>
+		$if inp.item_path:
+			<tr>
+				<td><span class="path_line">&#x21B3; <a href="$inp.item_host$inp.item_path#$inp.item_name">$inp.item_path</a>
+				<td>&nbsp;- <a href="/comment?item_host=$urlquote(inp.item_host)&item_path=$urlquote(inp.item_path)">Comments</a></span>
+			</tr>
+		$if inp.item_name:
+			<tr>
+				<td><span class="name_line">&#x21B3; <a href="$inp.item_host$inp.item_path#$inp.item_name">#$inp.item_name</a>
+				<td>&nbsp;- <a href="/comment?item_host=$urlquote(inp.item_host)&item_path=$urlquote(inp.item_path)&item_name=$urlquote(inp.item_name)">Comments</a></span>
+			</tr>
+		</table>
+		</h2>
+$if inp.item_host and inp.item_path and inp.item_name:
+		<ul>
+		$if not comments:
+			<li>No comments on this part of the page</li>
+		$for c in comments:
+			<li style="clear: both;">
+			$if session.user.name != "Anonymous" and (c.item_user == session.user.name or c.user_name == session.user.name):
+				<form action="/comment/$c.id" method="POST" style="float: right;">
+					<input type="hidden" name="_method" value="DELETE">
+					<input type="submit" value="Delete"/>
+				</form>
+			$c.content
+			<br><i><a href="/user/$c.user_name">$c.user_name</a> posted
+			$if c.private:
+				privately
+			at $shorten_datetime(c.date_posted)
+			</i>
+			</li>
+		</ul>
 
-$if inp.page_url and inp.item_id:
-	<h2>Comments on <a href="$inp.page_url#$inp.item_id">$shorten_url(inp.page_url+'#'+inp.item_id)</a></h2>
-	<a href="/comment?page_url=$inp.page_url">View comments on other parts of this page</a><p>
-	<ul>
-	$if not comments:
-		<li>No comments on this part of the page</li>
-	$for c in comments:
-		<li>$c.content
-		<br><i><a href="/user/$c.commenter">$c.commenter</a> posted
-		$if c.private:
-			privately
-		at $shorten_datetime(c.date_posted)
-		</i>
-		$if c.page_owner_id == session.user.id or c.commenter_id == session.user.id:
-			<form action="/comment/$c.id" method="POST">
-				<input type="hidden" name="_method" value="DELETE">
-				<input type="submit" value="Delete"/>
+		<h3>Add a comment to this item</h3>
+		<div class="cot_form">
+			<form method="POST" action="/comment">
+				<input type='hidden' name='item_host' value='$c.item_host'>
+				<input type='hidden' name='item_path' value='$c.item_path'>
+				<input type='hidden' name='item_name' value='$c.item_name'>
+				<input type='hidden' name='item_user' value='$c.item_user'>
+				<textarea name='content' id="content"></textarea>
+				<br><input class="btn btn-primary" type="submit" value="Submit Comment">
 			</form>
-		</li>
-	</ul>
-
-	<h3>Add a comment to this item</h3>
-	<div class="cot_form">
-		<form method="POST" action="/comment">
-			<input type='hidden' name='page_owner' value='$c.page_owner'>
-			<input type='hidden' name='page_url' value='$c.page_url'>
-			<input type='hidden' name='item_id' value='$c.item_id'>
-			<textarea name='content' id="content"></textarea>
-			<br><input class="btn btn-primary" type="submit" value="Submit Comment">
-		</form>
+		</div>
 	</div>
-$elif inp.page_url:
-	<h2>Comments on <a href="$inp.page_url">$shorten_url(inp.page_url)</a></h2>
-	<ul>
-	$if not comments:
-		<li>No comments on this page</li>
-	$for c in comments:
-		<li>$c.content
-		<br><i><a href="/user/$c.commenter">$c.commenter</a> posted
-		$if c.private:
-			privately
-		on <a href="$c.page_url#$c.item_id">#$c.item_id</a>
-		<a href="/comment?page_url=$c.page_url&item_id=$c.item_id">(Comments)</a>
-		at $shorten_datetime(c.date_posted)
-		</i>
-		$if c.page_owner_id == session.user.id or c.commenter_id == session.user.id:
-			<form action="/comment/$c.id" method="POST">
-				<input type="hidden" name="_method" value="DELETE">
-				<input type="submit" value="Delete"/>
-			</form>
-		</li>
-	</ul>
-$#endif
+	<div class="span3">
+		<h2>Items on this Page</h2>
+		<ul>
+		$for r in related_items:
+			<li><a href="/comment?item_host=$urlquote(inp.item_host)&item_path=$urlquote(inp.item_path)&item_name=$urlquote(r.item)">$r.item</a></li>
+		</ul>
 
+		<h2>Pages on this Site</h2>
+		<ul>
+		$for r in related_pages:
+			<li><a href="/comment?item_host=$urlquote(inp.item_host)&item_path=$urlquote(r.page)">$r.page</a></li>
+		</ul>
+$elif inp.item_host and inp.item_path:
+		<ul>
+		$if not comments:
+			<li>No comments on this page</li>
+		$for c in comments:
+			<li style="clear: both;">
+			$if session.user.name != "Anonymous" and (c.item_user == session.user.name or c.user_name == session.user.name):
+				<form action="/comment/$c.id" method="POST" style="float: right;">
+					<input type="hidden" name="_method" value="DELETE">
+					<input type="submit" value="Delete"/>
+				</form>
+			$c.content
+			<br><i><a href="/user/$c.user_name">$c.user_name</a> posted
+			$if c.private:
+				privately
+			on <a href="$c.item_host$c.item_path#$c.item_name">#$c.item_name</a>
+			<a href="/comment?item_host=$urlquote(c.item_host)&item_path=$urlquote(c.item_path)&item_name=$urlquote(c.item_name)">(Comments)</a>
+			at $shorten_datetime(c.date_posted)
+			</i>
+			</li>
+		</ul>
+	</div>
+	<div class="span3">
+		<h2>Items on this Page</h2>
+		<ul>
+		$for r in related_items:
+			<li><a href="/comment?item_host=$urlquote(inp.item_host)&item_path=$urlquote(inp.item_path)&item_name=$urlquote(r.item)">$r.item</a></li>
+		</ul>
+
+		<h2>Pages on this Site</h2>
+		<ul>
+		$for r in related_pages:
+			<li><a href="/comment?item_host=$urlquote(inp.item_host)&item_path=$urlquote(r.page)">$r.page</a></li>
+		</ul>
+$elif inp.item_host:
+		<ul>
+		$if not comments:
+			<li>No comments on this site</li>
+		$for c in comments:
+			<li style="clear: both;">
+			$if session.user.name != "Anonymous" and (c.item_user == session.user.name or c.user_name == session.user.name):
+				<form action="/comment/$c.id" method="POST" style="float: right;">
+					<input type="hidden" name="_method" value="DELETE">
+					<input type="submit" value="Delete"/>
+				</form>
+			$c.content
+			<br><i><a href="/user/$c.user_name">$c.user_name</a> posted
+			$if c.private:
+				privately
+			on <a href="$c.item_host$c.item_path#$c.item_name">#$c.item_name</a>
+			<a href="/comment?item_host=$urlquote(c.item_host)&item_path=$urlquote(c.item_path)&item_name=$urlquote(c.item_name)">(Comments)</a>
+			at $shorten_datetime(c.date_posted)
+			</i>
+			</li>
+		</ul>
+$#endif
 	</div>
 </div>
+

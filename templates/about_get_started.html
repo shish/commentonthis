@@ -1,15 +1,20 @@
+$if session.user.name == "Anonymous":
+	$ display_user = "YourUsername"
+$else:
+	$ display_user = session.user.name
+
 <div class="row">
 	<div class="span6 offset3">
 
 <h2>Getting Started with Comment on This!</h2>
 
 <p id="signup">First you need to <a href="/dashboard/new">create an account</a>,
-the standard "pick a username / password" deal.</p>
+the standard "pick a name / password" deal.</p>
 
 <p id="insertcode">Then, Insert this code into your web pages to start accepting comments:</p>
 
 <pre class="prettyprint">&lt;script src="http://www.commentonthis.net/cot/cot.js"&gt;&lt;/script&gt;
-&lt;script&gt;cot_init("YourUsername");&lt;/script&gt;</pre>
+&lt;script&gt;cot_init("$display_user");&lt;/script&gt;</pre>
 
 <p id="selector">By default the script will attach to all P tags - for more control, you can
 pass a second paramater which will be used as a
@@ -24,7 +29,7 @@ you could take comments on any paragraph with an explicit ID:
 &lt;p&gt;-----------&lt;/p&gt;
 
 &lt;script src="http://www.commentonthis.net/cot/cot.js"&gt;&lt;/script&gt;
-&lt;script&gt;cot_init("YourUsername", "P[id]");&lt;/script&gt;</pre>
+&lt;script&gt;cot_init("$display_user", "P[id]");&lt;/script&gt;</pre>
 
 <p id="section">Or to get comments on paragraphs within a given section:</p>
 
@@ -41,7 +46,7 @@ you could take comments on any paragraph with an explicit ID:
 &lt;/section&gt;
 
 &lt;script src="http://www.commentonthis.net/cot/cot.js"&gt;&lt;/script&gt;
-&lt;script&gt;cot_init("YourUsername", ".doc P");&lt;/script&gt;</pre>
+&lt;script&gt;cot_init("$display_user", ".doc P");&lt;/script&gt;</pre>
 
 <p id="notp">You don't even have to hook into P tags - you could collect
 comments on images, or sections, for example.</p>

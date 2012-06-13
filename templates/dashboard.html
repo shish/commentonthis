@@ -1,4 +1,4 @@
-$def with(username, page_urls, comments_on, comments_by, private_messages)
+$def with(name, page_urls, comments_on, comments_by, private_messages)
 
 <div class="row">
 	<div class="span7">
@@ -8,11 +8,11 @@ $def with(username, page_urls, comments_on, comments_by, private_messages)
 			<li>No pages have active comments</li>
 		$for page_url_row in page_urls:
 			<li>
-				<a href="$page_url_row.page_url">$shorten_url(page_url_row.page_url)</a> -
+				<a href="$page_url_row.item_host$page_url_row.item_path">$shorten_url(page_url_row.item_host+page_url_row.item_path)</a> -
 			$if page_url_row.comments == 1:
-				<a href="/comment?page_url=$page_url_row.page_url">$page_url_row.comments Comment</a>
+				<a href="/comment?item_host=$urlquote(page_url_row.item_host)&item_path=$urlquote(page_url_row.item_path)">$page_url_row.comments Comment</a>
 			$else:
-				<a href="/comment?page_url=$page_url_row.page_url">$page_url_row.comments Comments</a>
+				<a href="/comment?item_host=$urlquote(page_url_row.item_host)&item_path=$urlquote(page_url_row.item_path)">$page_url_row.comments Comments</a>
 			</li>
 		</ul>
 		<!--<p><a class="btn" href="#">View full list &raquo;</a></p>-->
@@ -21,7 +21,7 @@ $def with(username, page_urls, comments_on, comments_by, private_messages)
 		<h2>Quick Code</h2>
 		<p>Insert this code into your web pages to start accepting comments:</p>
 		<pre class="prettyprint">&lt;script src="http://www.commentonthis.net/cot/cot.js"&gt;&lt;/script&gt;
-&lt;script&gt;cot_init("$username");&lt;/script&gt;</pre>
+&lt;script&gt;cot_init("$name");&lt;/script&gt;</pre>
 		<p>For more advanced options, see the page on <a href="/about/get-started">getting started</a>.</p>
 	</div>
 </div>
@@ -39,7 +39,7 @@ $def with(username, page_urls, comments_on, comments_by, private_messages)
 			<br><i>
 			$if c.private:
 				Private
-			on <a href="/user/$c.page_owner">$c.page_owner</a>'s <a href="$c.page_url#$c.item_id">$get_domain(c.page_url)</a>
+			on <a href="/user/$c.item_user">$c.item_user</a>'s <a href="$c.item_host$c.item_path#$c.item_name">$get_domain(c.item_host)</a>
 			at $shorten_datetime(c.date_posted)
 			</i></li>
 		</ul>
@@ -52,10 +52,10 @@ $def with(username, page_urls, comments_on, comments_by, private_messages)
 			<li>No comments</li>
 		$for c in comments_on:
 			<li>$c.content
-			<br><i><a href="/user/$c.commenter">$c.commenter</a> posted
+			<br><i><a href="/user/$c.user_name">$c.user_name</a> posted
 			$if c.private:
 				privately
-			on <a href="$c.page_url#$c.item_id">$get_domain(c.page_url)</a>
+			on <a href="$c.item_host$c.item_path#$c.item_name">$get_domain(c.item_host)</a>
 			at $shorten_datetime(c.date_posted)
 			</i>
 			</li>

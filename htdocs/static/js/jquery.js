@@ -7137,7 +7137,7 @@ jQuery.extend({
 		timeout: 0,
 		data: null,
 		dataType: null,
-		username: null,
+		name: null,
 		password: null,
 		cache: null,
 		traditional: false,
@@ -8047,9 +8047,9 @@ if ( jQuery.support.ajax ) {
 						i;
 
 					// Open the socket
-					// Passing null username, generates a login popup on Opera (#2865)
-					if ( s.username ) {
-						xhr.open( s.type, s.url, s.async, s.username, s.password );
+					// Passing null name, generates a login popup on Opera (#2865)
+					if ( s.name ) {
+						xhr.open( s.type, s.url, s.async, s.name, s.password );
 					} else {
 						xhr.open( s.type, s.url, s.async );
 					}

@@ -39,10 +39,10 @@ $def with (page)
 					</a>
 					<a class="brand wide-only" href="/">Comment on This!</a>
 					<a class="brand thin-only" href="/" target="blank">Comment on This!</a>
-					$if session.user.username == "Anonymous":
+					$if session.user.name == "Anonymous":
 						<div class="btn-group pull-right">
 							<a class="btn" href="/dashboard/login">
-								<i class="icon-user"></i> $session.user.username
+								<i class="icon-user"></i> $session.user.name
 								<span class="caret"></span>
 							</a>
 						</div>
@@ -53,15 +53,15 @@ $def with (page)
 									<img src="$session.user.avatar" width="14" height="14" />
 								$else:
 									<i class="icon-user"></i>
-								$session.user.username
+								$session.user.name
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">
 								<li><a class="wide-only" href="/dashboard"><i class="icon-home"></i> Dashboard</a></li>
-								<li><a class="wide-only" href="/user/$session.user.username"><i class="icon-user"></i> Profile</a></li>
+								<li><a class="wide-only" href="/user/$session.user.name"><i class="icon-user"></i> Profile</a></li>
 								<li><a class="wide-only" href="/settings"><i class="icon-wrench"></i> Settings</a></li>
 								<li><a class="thin-only" href="/dashboard" target="blank"><i class="icon-home"></i> Dashboard</a></li>
-								<li><a class="thin-only" href="/user/$session.user.username" target="blank"><i class="icon-user"></i> Profile</a></li>
+								<li><a class="thin-only" href="/user/$session.user.name" target="blank"><i class="icon-user"></i> Profile</a></li>
 								<li><a class="thin-only" href="/settings" target="blank"><i class="icon-wrench"></i> Settings</a></li>
 								<li class="divider"></li>
 								<form action="/dashboard/logout" method="POST" id="logout_form" style="margin-bottom: 0px;">
@@ -73,7 +73,7 @@ $def with (page)
 					<div class="nav-collapse wide-only">
 						<ul class="nav">
 							<!--<li class="active"><a href="/#top">Home</a></li>-->
-						$if session.user.username == "Anonymous":
+						$if session.user.name == "Anonymous":
 							<li><a href="/#top">Home</a></li>
 						$else:
 							<li><a href="/dashboard">Home</a></li>

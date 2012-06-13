@@ -1,13 +1,14 @@
-$def with(quote, page_owner, page_url, item_id)
+$def with(quote, item_user, item_host, item_path, item_name)
 
 <div class="cot_form">
 	<p class="quote">Responding to: <i>$quote</i></p>
 
-	<form method="POST" action="/comment">
+	<form method="POST" action="/comment/new">
 		<input type='hidden' name='close_after' value='on'>
-		<input type='hidden' name='page_owner' value='$page_owner'>
-		<input type='hidden' name='page_url' value='$page_url'>
-		<input type='hidden' name='item_id' value='$item_id'>
+		<input type='hidden' name='item_user' value='$item_user'>
+		<input type='hidden' name='item_host' value='$item_host'>
+		<input type='hidden' name='item_path' value='$item_path'>
+		<input type='hidden' name='item_name' value='$item_name'>
 		<textarea name='content' id="content" autofocus></textarea>
 		<br><input class="btn btn-primary" type="submit" value="Submit Comment">
 	</form>

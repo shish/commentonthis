@@ -1,14 +1,14 @@
-$def with(username, page_urls, comments_on, comments_by)
+$def with(name, page_urls, comments_on, comments_by)
 
-<!--<h1>$username's Profile</h1>-->
+<!--<h1>$name's Profile</h1>-->
 
 <div class="row">
 	<div class="span4">
-	$if session.user.username != "Anonymous":
-		<h2>Send $username a Message</h2>
+	$if session.user.name != "Anonymous":
+		<h2>Send $name a Message</h2>
 		<div class="cot_form">
 			<form action="/pm/new" method="POST">
-				<input type="hidden" name="user_to" value="$username">
+				<input type="hidden" name="user_to" value="$name">
 				<textarea name="content"></textarea>
 				<br><input class="btn btn-primary" type="submit" value="Send">
 			</form>
@@ -21,20 +21,28 @@ $def with(username, page_urls, comments_on, comments_by)
 		<ul>
 		$if not page_urls:
 			<li>No pages have active comments</li>
+		$ last_host = ""
 		$for page_url_row in page_urls:
+			$if page_url_row.item_host != last_host:
+				$if last_host:
+					</ul>
+				$ last_host = page_url_row.item_host
+				<li><a href="$page_url_row.item_host">$get_domain(page_url_row.item_host)</a></li>
+				<ul>
+			$#endif
 			<li>
-				<a href="$page_url_row.page_url">$shorten_url(page_url_row.page_url)</a> -
+				<a href="$page_url_row.item_host$page_url_row.item_path">$page_url_row.item_path</a> -
 			$if page_url_row.comments == 1:
-				<a href="/comment?page_url=$page_url_row.page_url">$page_url_row.comments Comment</a>
+				<a href="/comment?item_host=$urlquote(page_url_row.item_host)&item_path=$urlquote(page_url_row.item_path)">$page_url_row.comments Comment</a>
 			$else:
-				<a href="/comment?page_url=$page_url_row.page_url">$page_url_row.comments Comments</a>
+				<a href="/comment?item_host=$urlquote(page_url_row.item_host)&item_path=$urlquote(page_url_row.item_path)">$page_url_row.comments Comments</a>
 			</li>
 		</ul>
 		<!--<p><a class="btn" href="#">View full list &raquo;</a></p>-->
 	</div>
 
 	<div class="span4">
-		<h2>Comments By $username</h2>
+		<h2>Comments By $name</h2>
 		<ul>
 		$if not comments_by:
 			<li>No comments</li>
@@ -43,23 +51,23 @@ $def with(username, page_urls, comments_on, comments_by)
 			<br><i>
 			$if c.private:
 				Private
-			on <a href="/user/$c.page_owner">$c.page_owner</a>'s <a href="$c.page_url#$c.item_id">$get_domain(c.page_url)</a>
+			on <a href="/user/$c.item_user">$c.item_user</a>'s <a href="$c.item_host$c.item_path#$c.item_name">$get_domain(c.item_host)</a>
 			at $shorten_datetime(c.date_posted)
 			</i></li>
 		</ul>
 		<!--<p><a class="btn" href="#">View full list &raquo;</a></p>-->
 	</div>
 	<div class="span4">
-		<h2>Comments On $username's Pages</h2>
+		<h2>Comments On $name's Pages</h2>
 		<ul>
 		$if not comments_on:
 			<li>No comments</li>
 		$for c in comments_on:
 			<li>$c.content
-			<br><i><a href="/user/$c.commenter">$c.commenter</a> posted
+			<br><i><a href="/user/$c.user_name">$c.user_name</a> posted
 			$if c.private:
 				privately
-			on <a href="$c.page_url#$c.item_id">$get_domain(c.page_url)</a>
+			on <a href="$c.item_host$c.item_path#$c.item_name">$get_domain(c.item_host)</a>
 			at $shorten_datetime(c.date_posted)
 			</i>
 			</li>

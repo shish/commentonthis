@@ -78,9 +78,8 @@ function cot_init_style() {
 	document.getElementsByTagName("head")[0].appendChild(ss);
 }
 
-function cot_init(account_id, filter, canonical_base) {
-	var canonical_base = canonical_base || location.protocol+'//'+location.hostname+(location.port?":"+location.port:"")+location.pathname;
-	var filter = filter || ".cot_item";
+function cot_init(account_id, filter) {
+	var filter = filter || "P";
 
 	cot_init_style();
 
@@ -100,9 +99,10 @@ function cot_init(account_id, filter, canonical_base) {
 				win = window.open(
 					cot_base+"comment/new"+
 					"?quote="+encodeURIComponent(item_el.data("snippet"))+
-					"&page_owner="+encodeURIComponent(account_id)+
-					"&page_url="+encodeURIComponent(canonical_base)+
-					"&item_id="+encodeURIComponent(item_el.attr("id")),
+					"&item_user="+encodeURIComponent(account_id)+
+					"&item_host="+encodeURIComponent(location.protocol+'//'+location.hostname+(location.port?":"+location.port:""))+
+					"&item_path="+encodeURIComponent(location.pathname)+
+					"&item_name="+encodeURIComponent(item_el.attr("id")),
 					'New Comment',
 					'height=200,width=480'
 				);
@@ -115,7 +115,12 @@ function cot_init(account_id, filter, canonical_base) {
 			var cbox_link_view = jQuery("<a />");
 			cbox_link_view.html("View&nbsp;current&nbsp;comments");
 			cbox_link_view.attr("class", "cot_link_view");
-			cbox_link_view.attr("href", cot_base+"comment?page_url="+encodeURIComponent(canonical_base)+"&item_id="+encodeURIComponent(item_el.attr("id")));
+			cbox_link_view.attr("href",
+				cot_base+"comment"+
+				"?item_host="+encodeURIComponent(location.protocol+'//'+location.hostname+(location.port?":"+location.port:""))+
+				"&item_path="+encodeURIComponent(location.pathname)+
+				"&item_name="+encodeURIComponent(item_el.attr("id"))
+			);
 			cbox_link_view.data("item-id", item_el.attr("id"));
 
 			var cbox_toggle_icon = jQuery("<img />");

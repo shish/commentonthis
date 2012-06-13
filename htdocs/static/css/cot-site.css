@@ -18,6 +18,7 @@ INPUT {
 .cot_form TEXTAREA,
 .cot_form INPUT[type="text"],
 .cot_form INPUT[type="password"],
+.cot_form INPUT[type="submit"],
 .cot_form INPUT[type="email"] {
 	width: 100%;
 }
@@ -52,4 +53,8 @@ INPUT {
 	.thin-only {
 		display: none !important;
 	}
+}
+
+.item_breakdown TD:first-child {
+	text-align: right;
 }

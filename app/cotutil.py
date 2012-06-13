@@ -12,8 +12,7 @@ def override_method(handler):
 
 class User:
     def __init__(self, row):
-        self.id = row.id
-        self.username = row.username
+        self.name = row.name
         self.password = row.password
         self.email = row.email
         self.mailmode = row.mailmode
