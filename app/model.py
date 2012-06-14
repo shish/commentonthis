@@ -24,16 +24,13 @@ def get_user(name=None, email=None, password=None):
         wheres.append("(lower(name) = lower($name))")
     if email is not None:
         wheres.append("(lower(email) = lower($email))")
-    if password is not None:
-        password = cotutil.hashpw(password)
-        wheres.append("(password=$password)")
 
     users = db.select('cot_user',
         where=" AND ".join(wheres),
         vars=locals()
     )
 
-    if users:
+    if users and (password is None or pwmatch(password, users[0].password)):
         return users[0]
     else:
         return None

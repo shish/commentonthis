@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS cot_session CASCADE;
 
 CREATE TABLE cot_user (
 	name TEXT UNIQUE NOT NULL PRIMARY KEY,
-	password CHAR(40) NOT NULL,
+	password TEXT NOT NULL,
 	email TEXT UNIQUE NOT NULL,
 	mailmode VARCHAR(8) NOT NULL DEFAULT 'all',
 	description TEXT NOT NULL DEFAULT '',

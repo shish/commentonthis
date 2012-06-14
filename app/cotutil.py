@@ -3,6 +3,7 @@ import web
 import hashlib
 import random
 import re
+import bcrypt
 
 
 def override_method(handler):
@@ -10,28 +11,27 @@ def override_method(handler):
     return handler()
 
 
-class User:
-    def __init__(self, row):
-        self.name = row.name
-        self.password = row.password
-        self.email = row.email
-        self.mailmode = row.mailmode
-        self.avatar = "http://www.gravatar.com/avatar/"+hashlib.md5(row.email).hexdigest()
+class DefaultingSession(web.session.Session):
+    def _save(self):
+        current_values = dict(self)
+        del current_values['session_id']
+        del current_values['ip']
+
+        cookie_name = self._config.cookie_name
+        cookie_domain = self._config.cookie_domain
+        if not self.get('_killed') and current_values != self._initializer:
+            web.setcookie(cookie_name, self.session_id, domain=cookie_domain)
+            self.store[self.session_id] = dict(self)
+        else:
+            if web.cookies().get(cookie_name):
+                web.setcookie(cookie_name, self.session_id, expires=-1, domain=cookie_domain)
 
 
-def hashpw(pw):
-    return hashlib.sha1("salty-walty\x00"+pw).hexdigest()
+def hashpw(password):
+    return bcrypt.hashpw(password, bcrypt.gensalt())
 
-
-def is_active_page(url):
-    actives = [
-        "user",
-        "comment",
-    ]
-    for active in actives:
-        if "commentonthis.net/"+active in url:
-            return True
-    return False
+def pwmatch(password, digest):
+    return bcrypt.hashpw(password, digest) == digest
 
 
 def generate_password():

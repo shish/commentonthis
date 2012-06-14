@@ -30,9 +30,22 @@ app = web.application(urls, globals())
 app.add_processor(override_method)
 
 
+class User:
+    def __init__(self, row):
+        self.name = row.name
+        self.password = row.password
+        self.email = row.email
+        self.mailmode = row.mailmode
+        self.avatar = "http://www.gravatar.com/avatar/"+hashlib.md5(row.email).hexdigest()
+
+    def __eq__(a, b):
+        return a.name == b.name
+
+
 if web.config.get('_session') is None:
     import rediswebpy
-    session = web.session.Session(app, rediswebpy.RedisStore(prefix='session:cot:'), {
+    session = DefaultingSession(app, rediswebpy.RedisStore(prefix='session:cot:'), {
+    #session = web.session.Session(app, rediswebpy.RedisStore(prefix='session:cot:'), {
         'user': User(model.get_user(name="Anonymous")),
         'flash': [],
     })
@@ -45,6 +58,16 @@ def flash(type, msg):
 
 def flash_clear():
     session.flash = []
+
+def is_active_page(url):
+    actives = [
+        "user",
+        "comment",
+    ]
+    for active in actives:
+        if "commentonthis.net/"+active in url:
+            return True
+    return False
 
 render = web.template.render('../templates', base='base', globals={
     'session': session,
@@ -293,10 +316,11 @@ class settings:
 class user:
     def GET(self, name=None):
         user = model.get_user(name=name)
-        pages = model.get_pages(item_user=user.name)
-        comments_on = model.get_comments(session.user.name, item_user=user.name)
-        comments_by = model.get_comments(session.user.name, user_name=user.name)
-        return render.user(user.name, pages, comments_on, comments_by)
+        if user:
+            pages = model.get_pages(item_user=user.name)
+            comments_on = model.get_comments(session.user.name, item_user=user.name)
+            comments_by = model.get_comments(session.user.name, user_name=user.name)
+            return render.user(user.name, pages, comments_on, comments_by)
 
 
 class pm_new:
