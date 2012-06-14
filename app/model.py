@@ -1,7 +1,7 @@
 import web
 import time
 import hashlib
-import cotutil
+import webutil
 import ConfigParser
 
 config = ConfigParser.SafeConfigParser()
@@ -30,7 +30,7 @@ def get_user(name=None, email=None, password=None):
         vars=locals()
     )
 
-    if users and (password is None or pwmatch(password, users[0].password)):
+    if users and (password is None or webutil.pwmatch(password, users[0].password)):
         return users[0]
     else:
         return None
@@ -39,14 +39,14 @@ def new_user(name, email, password):
     db.insert('cot_user',
         name=name,
         email=email,
-        password=cotutil.hashpw(password)
+        password=webutil.hashpw(password)
     )
 
 def set_user_password(name, password):
     db.update('cot_user',
         where="name=$name",
         vars={'name': name},
-        password=cotutil.hashpw(password)
+        password=webutil.hashpw(password)
     )
 
 def set_user_mailmode(name, mode):
