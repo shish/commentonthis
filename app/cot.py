@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
 import web
+from webutil import *
 import model
-from cotutil import *
 
 web.config.debug = True
 
