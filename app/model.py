@@ -25,10 +25,10 @@ def get_user(name=None, email=None, password=None):
     if email is not None:
         wheres.append("(lower(email) = lower($email))")
 
-    users = db.select('cot_user',
+    users = list(db.select('cot_user',
         where=" AND ".join(wheres),
         vars=locals()
-    )
+    ))
 
     if users and (password is None or webutil.pwmatch(password, users[0].password)):
         return users[0]
