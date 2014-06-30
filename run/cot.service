@@ -1,0 +1,14 @@
+[Unit]
+Description=ShishNet CommentOnThis
+
+[Service]
+ExecStart=/data/sites/commentonthis.net/run/run
+Restart=always
+Sockets=/tmp/fcgi-cot.sock
+
+Type=notify
+NotifyAccess=all
+WatchdogSec=60
+
+[Install]
+WantedBy=multi-user.target
