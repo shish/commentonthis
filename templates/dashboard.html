@@ -6,9 +6,17 @@ $def with(name, page_urls, comments_on, comments_by, private_messages)
 		<ul>
 		$if not page_urls:
 			<li>No pages have active comments</li>
+		$ last_host = ""
 		$for page_url_row in page_urls:
+			$if page_url_row.item_host != last_host:
+				$if last_host:
+					</ul>
+				$ last_host = page_url_row.item_host
+				<li><a href="$page_url_row.item_host">$get_domain(page_url_row.item_host)</a></li>
+				<ul>
+			$#endif
 			<li>
-				<a href="$page_url_row.item_host$page_url_row.item_path">$shorten_url(page_url_row.item_host+page_url_row.item_path)</a> -
+				<a href="$page_url_row.item_host$page_url_row.item_path">$page_url_row.item_path</a> -
 			$if page_url_row.comments == 1:
 				<a href="/comment?item_host=$urlquote(page_url_row.item_host)&item_path=$urlquote(page_url_row.item_path)">$page_url_row.comments Comment</a>
 			$else:

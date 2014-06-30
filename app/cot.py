@@ -1,8 +1,10 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 import web
 from webutil import *
 import model
+import logging
+import logging.handlers
 
 web.config.debug = True
 
@@ -44,7 +46,8 @@ class User:
 
 if web.config.get('_session') is None:
     import rediswebpy
-    session = DefaultingSession(app, rediswebpy.RedisStore(prefix='session:cot:'), {
+    #session = DefaultingSession(app, rediswebpy.RedisStore(prefix='session:cot:'), {
+    session = DefaultingSession(app, rediswebpy.RedisStore(), {
     #session = web.session.Session(app, rediswebpy.RedisStore(prefix='session:cot:'), {
         'user': User(model.get_user(name="Anonymous")),
         'flash': [],
@@ -339,4 +342,15 @@ class pm_new:
         raise web.seeother("/user/"+inp.user_to)
 
 if __name__ == "__main__":
+    logging.basicConfig(
+            level=logging.DEBUG,
+            format='%(asctime)s %(levelname)-8s %(message)s',
+            filename="../logs/app.log")
+    smtp = logging.handlers.SMTPHandler(
+            "localhost", "noreply@shishnet.org",
+            ["shish+cot@shishnet.org", ], "cot error report")
+    smtp.setLevel(logging.WARNING)
+    logging.getLogger('').addHandler(smtp)
+
+    logging.info("App starts...")
     app.run()

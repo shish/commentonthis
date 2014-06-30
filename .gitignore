@@ -5,3 +5,4 @@ logs/
 app/lib
 app/flup
 app/web
+venv/
